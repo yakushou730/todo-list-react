@@ -54,8 +54,9 @@ function App() {
   return (
     <div className="App">
       <h2>Todo List</h2>
-      <div style={{ marginBottom: 16 }}>
+      <div className="add-todo-row">
         <input
+          type="text"
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder="新增待辦事項"
@@ -63,42 +64,42 @@ function App() {
         />
         <button onClick={handleAdd}>新增</button>
       </div>
-      <div style={{ marginBottom: 16 }}>
+      <div className="filter-group">
         {Object.values(FILTERS).map(f => (
           <button
             key={f}
             onClick={() => setFilter(f)}
-            style={{ fontWeight: filter === f ? 'bold' : 'normal', marginRight: 8 }}
+            className={filter === f ? 'active' : ''}
           >
             {f}
           </button>
         ))}
       </div>
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <ul className="todo-list">
         {filteredTodos.map(todo => (
-          <li key={todo.id} style={{ marginBottom: 8, display: 'flex', alignItems: 'center' }}>
+          <li key={todo.id} className="todo-item">
             <input
               type="checkbox"
               checked={todo.completed}
               onChange={() => handleToggle(todo.id)}
-              style={{ marginRight: 8 }}
             />
             {editId === todo.id ? (
               <>
                 <input
+                  type="text"
+                  className="edit-input"
                   value={editText}
                   onChange={e => setEditText(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleEditSave(todo.id)}
-                  style={{ marginRight: 8 }}
                 />
                 <button onClick={() => handleEditSave(todo.id)}>儲存</button>
-                <button onClick={() => setEditId(null)} style={{ marginLeft: 4 }}>取消</button>
+                <button onClick={() => setEditId(null)}>取消</button>
               </>
             ) : (
               <>
-                <span style={{ textDecoration: todo.completed ? 'line-through' : 'none', flex: 1 }}>{todo.text}</span>
-                <button onClick={() => handleEdit(todo.id)} style={{ marginLeft: 8 }}>編輯</button>
-                <button onClick={() => handleDelete(todo.id)} style={{ marginLeft: 4 }}>刪除</button>
+                <span className={`todo-text${todo.completed ? ' todo-completed' : ''}`}>{todo.text}</span>
+                <button onClick={() => handleEdit(todo.id)}>編輯</button>
+                <button onClick={() => handleDelete(todo.id)}>刪除</button>
               </>
             )}
           </li>
